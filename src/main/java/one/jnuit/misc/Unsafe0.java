@@ -1,8 +1,10 @@
 package one.jnuit.misc;
 
+import sun.misc.UnsafeImpl;
+
 import javax.annotation.Generated;
 
-public final class Unsafe0 implements UnsafeImpl{
+public final class Unsafe0 implements UnsafeImpl {
 
 	//@SuppressWarnings("Only for tests")
 
