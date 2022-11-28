@@ -1,6 +1,6 @@
 package sun.misc;
 
-import one.jnuit.misc.Unsafe0;
+import one.misc.Unsafe0;
 import sun.reflect.MagicAccessor;
 import sun.misc.jni.JNIEnv;
 

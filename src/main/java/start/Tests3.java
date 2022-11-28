@@ -1,8 +1,6 @@
 package start;
 
-import one.jnuit.misc.Unsafe0;
-
-import java.io.File;
+import one.misc.Unsafe0;
 
 public class Tests3 {
 	static {
