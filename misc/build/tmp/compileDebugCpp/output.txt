@@ -1,0 +1,6 @@
+See file:///G:/Project/JavaProject/JMaster/misc/build/tmp/compileDebugCpp/output.txt for all output for compileDebugCpp.
+compiling misc.cpp successful.
+misc.cpp
+G:\Project\JavaProject\JMaster\misc\src\main\cpp\misc.cpp(182) : warning C4700: использована неинициализированная локальная переменная "body"
+
+Finished compileDebugCpp, see full log file:///G:/Project/JavaProject/JMaster/misc/build/tmp/compileDebugCpp/output.txt.

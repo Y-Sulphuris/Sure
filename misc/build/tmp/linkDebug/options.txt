@@ -1,0 +1,9 @@
+/DEBUG
+/OUT:G:\Project\JavaProject\JMaster\misc\build\lib\main\debug\misc.dll
+/NOLOGO
+/DLL
+/IMPLIB:G:\Project\JavaProject\JMaster\misc\build\lib\main\debug\misc.lib
+"/LIBPATH:G:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\lib\x64"
+"/LIBPATH:C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64"
+"/LIBPATH:C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\ucrt\x64"
+G:\Project\JavaProject\JMaster\misc\build\obj\main\debug\xld151ty505xjue72rphm85u\misc.obj

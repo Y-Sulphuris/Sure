@@ -1,0 +1,3 @@
+G:/Project/JavaProject/JMaster/misc/cmake-build-debug/CMakeFiles/misc.dir
+G:/Project/JavaProject/JMaster/misc/cmake-build-debug/CMakeFiles/edit_cache.dir
+G:/Project/JavaProject/JMaster/misc/cmake-build-debug/CMakeFiles/rebuild_cache.dir

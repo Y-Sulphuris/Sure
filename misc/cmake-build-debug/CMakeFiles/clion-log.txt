@@ -1,0 +1,4 @@
+G:\Sulphuris\Local\JetBrains\Toolbox\apps\CLion\ch-0\222.4345.21\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=G:/Sulphuris/Local/JetBrains/Toolbox/apps/CLion/ch-0/222.4345.21/bin/ninja/win/ninja.exe -G Ninja -S G:\Project\JavaProject\JMaster\misc -B G:\Project\JavaProject\JMaster\misc\cmake-build-debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: G:/Project/JavaProject/JMaster/misc/cmake-build-debug
