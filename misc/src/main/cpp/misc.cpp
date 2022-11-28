@@ -31,9 +31,14 @@ static inline void throw_new(JNIEnv *env, const char *ename) {
 
 extern "C"{
 
+
+
+
+
+
 /*
  * Unsafe0
- * */
+ * *
 JNIEXPORT jobject JNICALL
 Java_one_jnuit_misc_Unsafe0_allocateInstance0(JNIEnv *env, jobject obj,jclass cls) {
 	return env->AllocObject(cls);
@@ -140,31 +145,31 @@ Java_one_jnuit_misc_Unsafe0_putDouble0(JNIEnv *env, jobject obj, jlong address, 
 
 /*
  * JNIEnvNative
- */
+ *
 JNIEXPORT jlong JNICALL
-Java_one_jnuit_jni_JNIEnv_getJNIEnvAddress(JNIEnv *env, jobject obj) {
+Java_sun_misc_jni_JNIEnv_getJNIEnvAddress(JNIEnv *env, jobject obj) {
 	return (jlong)env;
 }
 JNIEXPORT jlong JNICALL
-Java_one_jnuit_jni_JNIEnv_getObjectAddress(JNIEnv *env, jobject obj, jobject current) {
+Java_sun_misc_jni_JNIEnv_getObjectAddress(JNIEnv *env, jobject obj, jobject current) {
 	return (jlong)obj;
 }
 JNIEXPORT jobject JNICALL
-Java_one_jnuit_jni_JNIEnv_objectByAddress(JNIEnv *env, jobject obj, jlong address) {
+Java_sun_misc_jni_JNIEnv_objectByAddress(JNIEnv *env, jobject obj, jlong address) {
 	return (jobject)address;
 }
 JNIEXPORT jboolean JNICALL
-Java_one_jnuit_jni_JNIEnv_exceptionCheck
+Java_sun_misc_jni_JNIEnv_exceptionCheck
 (JNIEnv *env, jobject obj) {
 	return env->ExceptionCheck();
 }
 JNIEXPORT jint JNICALL
-Java_one_jnuit_jni_JNIEnv_nThrow
+Java_sun_misc_jni_JNIEnv_nThrow
 (JNIEnv *env, jobject obj, jthrowable trw) {
 	return env->Throw(trw);
 }
 JNIEXPORT jclass JNICALL
-Java_one_jnuit_jni_JNIEnv_defineClass
+Java_sun_misc_jni_JNIEnv_defineClass
 (JNIEnv *env, jobject obj, jstring name, jobject loader, jbyteArray data, jint length) {
 
 	jbyte *body;
@@ -198,27 +203,28 @@ Java_one_jnuit_jni_JNIEnv_defineClass
 }
 
 JNIEXPORT void JNICALL
-Java_one_jnuit_jni_JNIEnv_fatalError(JNIEnv *env, jobject obj, jstring msg) {
+Java_sun_misc_jni_JNIEnv_fatalError(JNIEnv *env, jobject obj, jstring msg) {
 	env->FatalError(env->GetStringUTFChars(msg, 0));
 }
 JNIEXPORT jobject JNICALL
-Java_one_jnuit_jni_JNIEnv_allocObject(JNIEnv *env, jobject obj, jclass clazz) {
+Java_sun_misc_jni_JNIEnv_allocObject(JNIEnv *env, jobject obj, jclass clazz) {
 	return env->AllocObject(clazz);
 }
 JNIEXPORT jint JNICALL
-Java_one_jnuit_jni_JNIEnv_unregisterNatives(JNIEnv *env, jobject obj, jclass clazz) {
+Java_sun_misc_jni_JNIEnv_unregisterNatives(JNIEnv *env, jobject obj, jclass clazz) {
 	return env->UnregisterNatives(clazz);
 }
 JNIEXPORT jint JNICALL
-Java_one_jnuit_jni_JNIEnv_getVersion(JNIEnv *env, jobject obj) {
+Java_sun_misc_jni_JNIEnv_getVersion(JNIEnv *env, jobject obj) {
 	return env->GetVersion();
 }
+*/
 
 
-
-
-
-
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_getJNIEnvAddress(JNIEnv *env, jobject obj) {
+	return (jlong)env;
+}
 }
 
 int main() {

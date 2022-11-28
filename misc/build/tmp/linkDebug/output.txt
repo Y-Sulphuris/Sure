@@ -1,5 +1,5 @@
-See file:///G:/Project/JavaProject/JMaster/misc/build/tmp/linkDebug/output.txt for all output for linkDebug.
+See file:///G:/Project/JavaProject/Sure/misc/build/tmp/linkDebug/output.txt for all output for linkDebug.
 linking misc.dll successful.
-   Создается библиотека G:\Project\JavaProject\JMaster\misc\build\lib\main\debug\misc.lib и объект G:\Project\JavaProject\JMaster\misc\build\lib\main\debug\misc.exp
+   Создается библиотека G:\Project\JavaProject\Sure\misc\build\lib\main\debug\misc.lib и объект G:\Project\JavaProject\Sure\misc\build\lib\main\debug\misc.exp
 
-Finished linkDebug, see full log file:///G:/Project/JavaProject/JMaster/misc/build/tmp/linkDebug/output.txt.
+Finished linkDebug, see full log file:///G:/Project/JavaProject/Sure/misc/build/tmp/linkDebug/output.txt.

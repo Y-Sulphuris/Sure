@@ -2,8 +2,8 @@
 /nologo
 /c
 /Zi
-/IG:\Project\JavaProject\JMaster\misc\src\main\public
-/IG:\Project\JavaProject\JMaster\misc\src\main\headers
+/IG:\Project\JavaProject\Sure\misc\src\main\public
+/IG:\Project\JavaProject\Sure\misc\src\main\headers
 /IC:\Users\lidia\.jdks\liberica-1.8.0_345\include
 /IC:\Users\lidia\.jdks\liberica-1.8.0_345\include\win32
 "/IG:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"
