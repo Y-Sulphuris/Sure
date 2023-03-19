@@ -45,6 +45,7 @@ public final class MagicClassLoader extends ClassLoader{
 	public static void main(String[] args) {
 		try {
 			//getSystemClassLoader().getByteCode("one.jnuit.misc.NotObject");
+			getSystemClassLoader().printByteCode(NotObject.class, System.out);
 			getSystemClassLoader().printByteCode(Object.class, System.out);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -54,15 +55,7 @@ public final class MagicClassLoader extends ClassLoader{
 		//String path = name.replace('.', '/').concat(".class");
 		String classFile = "/" + name.replace('.', '/') + ".class";
 		try {
-			String classFile2 = "/" + MagicClassLoader.class.getName().replace('.', '/') + ".class";
-			System.out.println(classFile2);
-
-			System.out.println(Object.class.getName());
-			System.out.println(name);
-			//URL url = JNuit.class.getResource(classFile);
-			//System.out.println(url);
-			//return null;
-			URL url = MagicClassLoader.class.getResource(classFile2);
+			URL url = MagicClassLoader.class.getResource(classFile);
 			assert url != null;
 			InputStream is = url.openStream();
 			byte[] bytes = IOUtils.readAllBytes(is);
@@ -79,22 +72,35 @@ public final class MagicClassLoader extends ClassLoader{
 
 	}
 
-	public byte[] getClassByteCode(Class<?> clazz) {
+	public byte[] getByteCode(Class<?> clazz) {
 		try {
 			return getByteCode(clazz.getName());
 		} catch (IOException | IllegalAccessException | NoSuchFieldException e) {
 			throw new SecurityException(e);
 		}
 	}
-	public synchronized void printByteCode(Class<?> clazz, PrintStream out) {
-		byte[] code = getClassByteCode(clazz);
+	public void printByteCode(Class<?> clazz, PrintStream out) {
+		byte[] code = getByteCode(clazz);
+		out.print(clazz.getSimpleName()+": ");
 		out.print(code.length);
+		printData(code, out);
+	}
+	public void printFileData(File classFile, PrintStream out) {
+		try {
+			FileInputStream is = new FileInputStream(classFile);
+			byte[] code = IOUtils.readAllBytes(is);
+			out.print(classFile.getName()+": ");
+			out.print(code.length);
+			printData(code, out);
+			is.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void printData(byte[] data, PrintStream out) {
 		out.print('{');
-		int i = 1;
-		for (byte b : code) {
-			
-			i++;
-			out.print(b + i==code.length?',':"");
+		for (int i = 0; i < data.length; i++) {
+			out.print(data[i] + (i != data.length-1?", ":""));
 		}
 		out.println("}");
 	}

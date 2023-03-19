@@ -1,5 +1,9 @@
 See file:///G:/Project/JavaProject/Sure/misc/build/tmp/compileDebugCpp/output.txt for all output for compileDebugCpp.
 compiling misc.cpp successful.
 misc.cpp
+G:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\ostream(414): warning C4530: Использован обработчик исключений C++, но семантика уничтожения объектов не включена. Задайте параметр /EHsc
+G:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\ostream(407): note: во время компиляции функции-члена класс шаблон "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)"
+G:\Project\JavaProject\Sure\misc\src\main\cpp\misc.cpp(429): note: выполняется компиляция ссылки на экземпляр шаблон функции "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)"
+G:\Project\JavaProject\Sure\misc\src\main\cpp\misc.cpp(40): note: выполняется компиляция ссылки на экземпляр класс шаблон функции "std::basic_ostream<char,std::char_traits<char>>"
 
 Finished compileDebugCpp, see full log file:///G:/Project/JavaProject/Sure/misc/build/tmp/compileDebugCpp/output.txt.

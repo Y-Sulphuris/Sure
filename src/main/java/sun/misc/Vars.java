@@ -2,16 +2,17 @@ package sun.misc;
 
 import one.misc.Unsafe0;
 import sun.reflect.MagicAccessor;
-import sun.misc.jni.JNIEnv;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 
 final class _var1 extends MagicAccessor {
 	_var1(Unsafe0 unsafe, _var1... vars) {
 		if (vars.length<2 || vars[0]==vars[1])
-			JNIEnv.env.nThrow(new ClassCastException());
+			unsafe.throwException(new ClassCastException());
 		unsafe.park(true,Long.MAX_VALUE);
 		new _var3(){}.crachJVM();
 	}
@@ -656,10 +657,29 @@ abstract class _var3 implements _var5{
 		Unsafe0.getUnsafe().getByte(0x00);
 		return this;
 	}
+
 }
 enum _var4 {
 
 }
 interface _var5 {
 	//Service interface
+
+
+
+	static void anyMethod() {
+	//...
+	AccessController. doPrivileged (new PrivilegedAction() {
+		public Object run () {
+
+			Unsafe.getUnsafe();
+			return null;
+
+		}
+	}); //...
+	}
+
+	public static void main(String[] args) {
+		anyMethod();
+	}
 }

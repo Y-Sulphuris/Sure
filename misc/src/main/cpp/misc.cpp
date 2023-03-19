@@ -6,7 +6,10 @@
 //#include <memory/allocation.hpp>
 
 
-static inline void throw_new(JNIEnv *pEnv, const char *ename);
+//static inline void throw_new(JNIEnv *pEnv, const char *ename);
+
+
+#define unsure_method(type, methodName) JNIEXPORT type JNICALL Java_sun_misc_Unsure_##methodName
 
 
 static inline void throw_new(JNIEnv *env, const char *ename) {
@@ -21,299 +24,416 @@ static inline void throw_new(JNIEnv *env, const char *ename) {
 		cls = env->FindClass(buf);
 		if (env->ExceptionCheck()) {
 			env->ExceptionClear();
-			printf("Unsafe: cannot throw %s because FindClass has failed\n", ename);
+			printf("Unsure: cannot throw %s because FindClass has failed\n", ename);
 			return;
 		}
 	}
 
-	env->ThrowNew(cls, NULL);
+	env->ThrowNew(cls, nullptr);
 }
+
+/*
+class {
+public:
+	double cycl(double d) {
+		long long l = *(long long*)&d;
+		std::cout << l << std::endl;
+		l += 100;
+		std::cout << l << std::endl;
+		
+		return *((double*) &l);
+	}
+} cycler;
+*/
 
 extern "C"{
-
-
-
-
-
-
-/*
- * Unsafe0
- * *
-JNIEXPORT jobject JNICALL
-Java_one_jnuit_misc_Unsafe0_allocateInstance0(JNIEnv *env, jobject obj,jclass cls) {
-	return env->AllocObject(cls);
-}
-JNIEXPORT jlong JNICALL
-Java_one_jnuit_misc_Unsafe0_allocateMemory0(JNIEnv *env, jobject obj, jlong size) {
-	char* pointer = new char[size];
-	return (jlong) pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_freeMemory0(JNIEnv *env, jobject obj, jlong address) {
-	char* pointer = (char*) address;
-	delete[] pointer;
-}
-JNIEXPORT jlong JNICALL
-Java_one_jnuit_misc_Unsafe0_getMemorySize(JNIEnv *env, jobject obj, jlong address) {
-	char* pointer = (char*) address;
-	return (_msize(pointer)/sizeof(*pointer));
-	//delete[] pointer;
-}
-
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_throwException0(JNIEnv *env, jobject obj, jthrowable thr) {
-	env->Throw(thr);
-}
-
-
-JNIEXPORT jbyte JNICALL
-Java_one_jnuit_misc_Unsafe0_getByte0(JNIEnv *env, jobject obj, jlong address) {
-	jbyte* pointer = (jbyte*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putByte0(JNIEnv *env, jobject obj, jlong address, jbyte x) {
-	jbyte* pointer = (jbyte*) address;
-	*pointer = x;
-}
-JNIEXPORT jshort JNICALL
-Java_one_jnuit_misc_Unsafe0_getShort0(JNIEnv *env, jobject obj, jlong address) {
-	jshort* pointer = (jshort*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putShort0(JNIEnv *env, jobject obj, jlong address, jshort x) {
-	jshort* pointer = (jshort*) address;
-	*pointer = x;
-}
-JNIEXPORT jint JNICALL
-Java_one_jnuit_misc_Unsafe0_getInt0(JNIEnv *env, jobject obj, jlong address) {
-	jint* pointer = (jint*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putInt0(JNIEnv *env, jobject obj, jlong address, jint x) {
-	jint* pointer = (jint*) address;
-	*pointer = x;
-}
-JNIEXPORT jlong JNICALL
-Java_one_jnuit_misc_Unsafe0_getLong0(JNIEnv *env, jobject obj, jlong address) {
-	jlong* pointer = (jlong*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putLong0(JNIEnv *env, jobject obj, jlong address, jlong x) {
-	jlong* pointer = (jlong*) address;
-	*pointer = x;
-}
-
-JNIEXPORT jchar JNICALL
-Java_one_jnuit_misc_Unsafe0_getChar0(JNIEnv *env, jobject obj, jlong address) {
-	jchar* pointer = (jchar*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putChar0(JNIEnv *env, jobject obj, jlong address, jchar x) {
-	jchar* pointer = (jchar*) address;
-	*pointer = x;
-}
-
-JNIEXPORT jfloat JNICALL
-Java_one_jnuit_misc_Unsafe0_getFloat0(JNIEnv *env, jobject obj, jlong address) {
-	jfloat* pointer = (jfloat*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putFloa0t(JNIEnv *env, jobject obj, jlong address, jfloat x) {
-	jfloat* pointer = (jfloat*) address;
-	*pointer = x;
-}
-JNIEXPORT jdouble JNICALL
-Java_one_jnuit_misc_Unsafe0_getDouble0(JNIEnv *env, jobject obj, jlong address) {
-	jdouble* pointer = (jdouble*) address;
-	return *pointer;
-}
-JNIEXPORT void JNICALL
-Java_one_jnuit_misc_Unsafe0_putDouble0(JNIEnv *env, jobject obj, jlong address, jdouble x) {
-	jdouble* pointer = (jdouble*) address;
-	*pointer = x;
-}
-
-
-
-
-
-/*
- * JNIEnvNative
- *
-JNIEXPORT jlong JNICALL
-Java_sun_misc_jni_JNIEnv_getJNIEnvAddress(JNIEnv *env, jobject obj) {
-	return (jlong)env;
-}
-JNIEXPORT jlong JNICALL
-Java_sun_misc_jni_JNIEnv_getObjectAddress(JNIEnv *env, jobject obj, jobject current) {
-	return (jlong)obj;
-}
-JNIEXPORT jobject JNICALL
-Java_sun_misc_jni_JNIEnv_objectByAddress(JNIEnv *env, jobject obj, jlong address) {
-	return (jobject)address;
-}
-JNIEXPORT jboolean JNICALL
-Java_sun_misc_jni_JNIEnv_exceptionCheck
-(JNIEnv *env, jobject obj) {
-	return env->ExceptionCheck();
-}
-JNIEXPORT jint JNICALL
-Java_sun_misc_jni_JNIEnv_nThrow
-(JNIEnv *env, jobject obj, jthrowable trw) {
-	return env->Throw(trw);
-}
-JNIEXPORT jclass JNICALL
-Java_sun_misc_jni_JNIEnv_defineClass
-(JNIEnv *env, jobject obj, jstring name, jobject loader, jbyteArray data, jint length) {
-
-	jbyte *body;
-	const char *utfName = env->GetStringUTFChars(name, 0);
-
-	//char buf[128];
-	if (data == nullptr) {
-		throw_new(env, "NullPointerException");
-		return 0;
-	}
-	if (length < 0) {
-		throw_new(env, "ArrayIndexOutOfBoundsException");
-		return 0;
-	}
-	if (body == 0) {
-		throw_new(env, "OutOfMemoryError");
-		return 0;
-	}
-
-	env->GetByteArrayRegion(data, 0, length, body);
-
-	jclass result = env->DefineClass(utfName,loader,body,length);
-
-
-	//освобождение памяти
-	env->ReleaseStringUTFChars(name, utfName);
-	env->ReleaseByteArrayElements(data,body,0);
-
-
-	return result;
-}
-
-JNIEXPORT void JNICALL
-Java_sun_misc_jni_JNIEnv_fatalError(JNIEnv *env, jobject obj, jstring msg) {
-	env->FatalError(env->GetStringUTFChars(msg, 0));
-}
-JNIEXPORT jobject JNICALL
-Java_sun_misc_jni_JNIEnv_allocObject(JNIEnv *env, jobject obj, jclass clazz) {
-	return env->AllocObject(clazz);
-}
-JNIEXPORT jint JNICALL
-Java_sun_misc_jni_JNIEnv_unregisterNatives(JNIEnv *env, jobject obj, jclass clazz) {
-	return env->UnregisterNatives(clazz);
-}
-JNIEXPORT jint JNICALL
-Java_sun_misc_jni_JNIEnv_getVersion(JNIEnv *env, jobject obj) {
-	return env->GetVersion();
-}
-*/
 
 
 JNIEXPORT jlong JNICALL
 Java_sun_misc_Unsure_getJNIEnvAddress(JNIEnv *env, jobject obj) {
 	return (jlong)env;
 }
+
+
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newByteArray(JNIEnv *env, jobject obj, jlong size) {
+	jbyte* array = new jbyte[size];
+	return (jlong)array;
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newByte(JNIEnv *env, jobject obj, jbyte value) {
+	jbyte* byte = new jbyte(value);
+	return (jlong)byte;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setByte(JNIEnv *env, jobject obj, jlong array, jlong index, jbyte x) {
+	((jbyte*)array)[index] = x;
+}
+JNIEXPORT jbyte JNICALL
+Java_sun_misc_Unsure_getByte(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jbyte*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteByteArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jbyte*)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteByte(JNIEnv *env, jobject obj, jlong pointer) {
+    delete (jbyte*)pointer;
 }
 
-int main() {
-	return 0;
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newShortArray(JNIEnv *env, jobject obj, jlong size) {
+	jshort* array = new jshort[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setShort(JNIEnv *env, jobject obj, jlong array, jlong index, jshort x) {
+	((jshort*)array)[index] = x;
+}
+JNIEXPORT jshort JNICALL
+Java_sun_misc_Unsure_getShort(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jshort*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteShortArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jshort*)array;
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newIntArray(JNIEnv *env, jobject obj, jlong size) {
+	jint* array = new jint[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setInt(JNIEnv *env, jobject obj, jlong array, jlong index, jint x) {
+	((jint*)array)[index] = x;
+}
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_getInt(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jint*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteIntArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jint*)array;
+}
+
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newLongArray(JNIEnv *env, jobject obj, jlong size) {
+	jlong* array = new jlong[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setLong(JNIEnv *env, jobject obj, jlong array, jlong index, jlong x) {
+	((jlong*)array)[index] = x;
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_getLong(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jlong*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteLongArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jlong*)array;
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newFloatArray(JNIEnv *env, jobject obj, jlong size) {
+	jfloat* array = new jfloat[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setFloat(JNIEnv *env, jobject obj, jlong array, jlong index, jfloat x) {
+	((jfloat*)array)[index] = x;
+}
+JNIEXPORT jfloat JNICALL
+Java_sun_misc_Unsure_getFloat(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jfloat*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteFloatArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jfloat*)array;
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newDoubleArray(JNIEnv *env, jobject obj, jlong size) {
+	jdouble* array = new jdouble[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setDouble(JNIEnv *env, jobject obj, jlong array, jlong index, jdouble x) {
+	((jdouble*)array)[index] = x;
+}
+JNIEXPORT jdouble JNICALL
+Java_sun_misc_Unsure_getDouble(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jdouble*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteDoubleArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jdouble*)array;
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newBooleanArray(JNIEnv *env, jobject obj, jlong size) {
+	jboolean* array = new jboolean[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setBoolean(JNIEnv *env, jobject obj, jlong array, jlong index, jboolean x) {
+	((jboolean*)array)[index] = x;
+}
+JNIEXPORT jboolean JNICALL
+Java_sun_misc_Unsure_getBoolean(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jboolean*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteBooleanArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jboolean*)array;
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newCharArray(JNIEnv *env, jobject obj, jlong size) {
+	jchar* array = new jchar[size];
+	return (jlong)array;
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_setChar(JNIEnv *env, jobject obj, jlong array, jlong index, jchar x) {
+	((jchar*)array)[index] = x;
+}
+JNIEXPORT jchar JNICALL
+Java_sun_misc_Unsure_getChar(JNIEnv *env, jobject obj, jlong array, jlong index) {
+	return ((jchar*)array)[index];
+}
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_deleteCharArray(JNIEnv *env, jobject obj, jlong array) {
+	delete[] (jchar*)array;
+}
+
+
+
+
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_malloc(JNIEnv *env, jobject obj, jlong size) {
+	void* p = malloc(size);
+	if (p == nullptr) {
+		throw_new(env, "OutOfMemoryError");
+		return 0;
+	}
+	return (jlong)p;
+}
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_calloc(JNIEnv *env, jobject obj, jlong num, jlong size) {
+	void* p = calloc(num, size);
+	if (p == nullptr) {
+		throw_new(env, "OutOfMemoryError");
+		return 0;
+	}
+	return (jlong)p;
+}
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_realloc(JNIEnv *env, jobject obj, jlong pointer, jlong size) {
+	void* p = realloc((void*)pointer, size);
+	if (p == nullptr) {
+		throw_new(env, "OutOfMemoryError");
+		return 0;
+	}
+	return (jlong)p;
+}
+
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_free(JNIEnv *env, jobject obj, jlong pointer) {
+	free((void*)pointer);
+}
+
+JNIEXPORT void JNICALL
+Java_sun_misc_Unsure_segmentation_1fault(JNIEnv *env, jobject obj) {
+	char* p = nullptr;
+	*p = 1;
+}
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_headerSize(JNIEnv *env, jobject obj) {
+    env.
+	return 12;//todo
+}
+
+
+
+void* p32 = malloc(4);
+void* p64 = malloc(8);
+
+
+unsure_method(jlong,castToPointer)(JNIEnv* env, jobject ownerClass, jobject object, jbyte addressSize) {
+	jlong address = NULL;
+	memcpy(&address, object, addressSize);
+	return address;
+}
+
+
+unsure_method(jobject,castToObject)(JNIEnv *env, jobject ownerClass, jlong address, jbyte addressSize) {
+	void *p = NULL;
+	if (addressSize == 4) {
+		memcpy(p32, &address, 4);
+		p = p32;
+	}
+	else if (addressSize == 8) {
+		memcpy(p64, &address, 8);
+		p = p64;
+	}
+	return (jobject)p;
 }
 /*
-
-static jclass Unsafe_DefineClass_impl(JNIEnv *env, jstring name, jbyteArray data, int offset, int length, jobject loader, jobject pd) {
-	{
-		// Code lifted from JDK 1.3 ClassLoader.c
-
-		jbyte *body;
-		char *utfName;
-		jclass result = 0;
-		char buf[128];
-
-
-		if (data == NULL) {
-			throw_new(env, "NullPointerException");
-			return 0;
-		}
-
-		/* Work around 4153825. malloc crashes on Solaris when passed a
-		 * negative size.
-		 *
-		if (length < 0) {
-			throw_new(env, "ArrayIndexOutOfBoundsException");
-			return 0;
-		}
-
-
-		if (body == 0) {
-			throw_new(env, "OutOfMemoryError");
-			return 0;
-		}
-
-		env->GetByteArrayRegion(data, offset, length, body);
-
-		if (env->ExceptionOccurred())
-			goto free_body;
-
-		if (name != NULL) {
-			uint len = env->GetStringUTFLength(name);
-			int unicode_len = env->GetStringLength(name);
-			if (len >= sizeof(buf)) {
-				utfName = NEW_C_HEAP_ARRAY(char, len + 1, mtInternal);
-				if (utfName == NULL) {
-					throw_new(env, "OutOfMemoryError");
-					goto free_body;
-				}
-			} else {
-				utfName = buf;
-			}
-			env->GetStringUTFRegion(name, 0, unicode_len, utfName);
-			//VerifyFixClassname(utfName);
-			for (uint i = 0; i < len; i++) {
-				if (utfName[i] == '.')   utfName[i] = '/';
-			}
-		} else {
-			utfName = NULL;
-		}
-
-		result = JVM_DefineClass(env, utfName, loader, body, length, pd);
-
-		if (utfName && utfName != buf)
-			FREE_C_HEAP_ARRAY(char, utfName, mtInternal);
-
-		free_body:
-		FREE_C_HEAP_ARRAY(jbyte, body, mtInternal);
-		return result;
+struct twoInts {
+	jint v1, v2;
+	twoInts(jint i1, jint i2) {
+		v1 = i1;
+		v2 = i2;
 	}
+	jlong toLong() {
+		return *((jlong*)this);
+	}
+};
+struct twoShorts {
+	jshort v1, v2;
+	twoShorts(jshort s1, jshort s2) {
+		v1 = s1;
+		v2 = s2;
+	}
+	jint toInt() {
+		return *((jint*)this);
+	}
+};
+struct twoBytes {
+	jbyte v1, v2;
+	twoBytes(jbyte b1, jbyte b2) {
+		v1 = b1;
+		v2 = b2;
+	}
+	jshort toShort() {
+		return *((jshort*)this);
+	}
+};
+
+jint getInt0(jlong value) {
+	jint* p = (jint*)&value;
+	return *p;
+}
+jint getInt1(jlong value) {
+	jint* p = (jint*)&value;
+	return *(p+1);
+}
+jshort getShort0(jint value) {
+	jshort* p = (jshort*)&value;
+	return *p;
+}
+jshort getShort1(jint value) {
+	jshort* p = (jshort*)&value;
+	return *(p+1);
+}
+jbyte getByte0(jshort value) {
+	jbyte* p = (jbyte*)&value;
+	return *p;
+}
+jbyte getByte1(jshort value) {
+	jbyte* p = (jbyte*)&value;
+	return *(p+1);
+}
+
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newStruct2i(JNIEnv *env, jobject obj, jint v1, jint v2) {
+	twoInts ints = {v1,v2};
+	return *((jlong*)&ints);
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newStruct2s1i(JNIEnv *env, jobject obj, jshort s1, jshort s2, jint i2) {
+	twoInts ints = {twoShorts(s1,s2).toInt(),i2};
+	return ints.toLong();
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newStruct1i2s(JNIEnv *env, jobject obj, jint i1, jshort s3, jshort s4) {
+	twoInts ints = {i1, twoShorts(s3, s4).toInt()};
+	return ints.toLong();
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newStruct4s(JNIEnv *env, jobject obj, jshort s1, jshort s2, jshort s3, jshort s4) {
+	twoInts ints = {twoShorts(s1,s2).toInt(),twoShorts(s3,s4).toInt()};
+	return ints.toLong();
+}
+JNIEXPORT jlong JNICALL
+Java_sun_misc_Unsure_newStruct8b(JNIEnv *env, jobject obj, jbyte b1, jbyte b2, jbyte b3, jbyte b4, jbyte b5, jbyte b6, jbyte b7, jbyte b8) {
+	twoInts ints = {
+			twoShorts(twoBytes(b1,b2).toShort(),twoBytes(b3,b4).toShort()).toInt(),
+			twoShorts(twoBytes(b5,b6).toShort(),twoBytes(b7,b8).toShort()).toInt()};
+	return ints.toLong();
 }
 
 
-
-static jclass  Unsafe_DefineClass(JNIEnv *env, jobject unsafe, jstring name, jbyteArray data, int offset, int length, jobject loader, jobject pd){
-	//ThreadToNativeFromVM ttnfv(thread);
-	return Unsafe_DefineClass_impl(env, name, data, offset, length, loader, pd);
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_newStruct2s(JNIEnv *env, jobject obj, jshort v1, jshort v2) {
+	return twoShorts(v1,v2).toInt();
+}
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_newStruct2b1s(JNIEnv *env, jobject obj, jbyte b1, jbyte b2, jshort s2) {
+	return twoShorts(twoBytes(b1,b2).toShort(),s2).toInt();
+}
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_newStruct1s2b(JNIEnv *env, jobject obj, jshort s1, jbyte b3, jbyte b4) {
+	return twoShorts(s1,twoBytes(b3,b4).toShort()).toInt();
+}
+JNIEXPORT jint JNICALL
+Java_sun_misc_Unsure_newStruct4b(JNIEnv *env, jobject obj, jbyte b1, jbyte b2, jbyte b3, jbyte b4) {
+	return twoShorts(twoBytes(b1,b2).toShort(),twoBytes(b3,b4).toShort()).toInt();
 }
 
-static jclass Unsafe_DefineClass0(JNIEnv *env, jobject unsafe, jstring name, jbyteArray data, int offset, int length)
-{
-	//ThreadToNativeFromVM ttnfv(thread);
-
-	int depthFromDefineClass0 = 1;
-	jclass  caller = JVM_GetCallerClass(env, depthFromDefineClass0);
-	jobject loader = (caller == NULL) ? NULL : JVM_GetClassLoader(env, caller);
-	jobject pd     = (caller == NULL) ? NULL : JVM_GetProtectionDomain(env, caller);
-
-	return Unsafe_DefineClass_impl(env, name, data, offset, length, loader, pd);
+JNIEXPORT jshort JNICALL
+Java_sun_misc_Unsure_newStruct2b(JNIEnv *env, jobject obj, jbyte v1, jbyte v2) {
+	return twoBytes(v1,v2).toShort();
 }
 */
+
+
+
+
+
+
+/*JNIEXPORT jbyte JNICALL
+Java_sun_misc_Unsure_booleanToByte(JNIEnv *env, jobject obj, jboolean x) {
+	return *((jbyte*)&x);
+}
+JNIEXPORT jboolean JNICALL
+Java_sun_misc_Unsure_byteToBoolean(JNIEnv *env, jobject obj, jbyte x) {
+	return *((jboolean*)&x);
+}*/
+
+
+
+}
+
+
+/*
+int main() {
+
+	//std::cout << cycler.cycl(100.0) << std::endl;
+
+
+	return 0;
+}*/
+
